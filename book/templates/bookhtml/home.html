@@ -1,0 +1,54 @@
+{% extends "bookhtml/navigation.html" %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'bookcss/product.css' %}" />
+{% endblock css %}
+
+
+
+
+{% block content %}
+
+        <!-- <body>
+    <div class="row">
+        {% for book in books %}
+        <div class="card">
+            <h1>{{ book.title}}</h1>
+            <p class="price">By {{ book.author}} on {{ book.book_date}}</p>
+            <p>{{ book.price}}</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        {% endfor %}
+    </div>
+    </body> -->
+
+    
+    <body>
+        
+        <div class="row">
+            {% for book, rating, img in BookName|slice:":5" %}
+            <div class="card">
+            <img src="{{ img }}" alt="">
+            <h5 title="{{ book }}">
+                {% if book|length > 30 %}
+                    {{ book|truncatechars:30 }}
+                {% else %}
+                    {{ book }}
+                {% endif %}
+            
+            </h5>     
+            <p>{{ rating }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </body>
+    
+    
+
+{% endblock %}
+
+
+

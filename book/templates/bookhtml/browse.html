@@ -1,0 +1,108 @@
+{% extends "bookhtml/navigation.html" %}
+<!-- {% load static %} -->
+
+
+<!-- {% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'bookcss/product.css' %}" />
+{% endblock css %} -->
+
+
+
+
+{% block content %}  
+    <body>
+
+    <!-- <body>
+    <div class="row">
+        {% for book in books %}
+        <div class="card">
+            <h1>{{ book.title}}</h1>
+            <p class="price">By {{ book.author}} on {{ book.book_date}}</p>
+            <p>{{ book.price}}</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        {% endfor %}
+    </div>
+    </body> -->
+    
+    <form method="post" action="{% url 'recommend_books' %}">
+        {% csrf_token %}
+        <label for="user_input">Enter a Book Title:</label>
+        <input type="text" id="user_input" name="user_input">
+
+        <label for="genre">Select Genre:</label>
+        <select id="genre" name="genre" style="width: 200px;">
+            {% for genre in genres %}
+                <option value="{{ genre }}"{% if genre == selected_genre %}selected{% endif %}>{{ genre }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if selected_genre %}
+    <h2>Books recommended for the genre: {{ selected_genre }}</h2>
+    {% for _, book in recommended_books.iterrows %}
+        <div>
+            <img src="{{ book.cover_url }}" alt="{{ book.title }}">
+            <h3>{{ book.title }}</h3>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+    {% endif %}
+
+        
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if data %}
+    <div class="row">
+        <h2>Recommendations:</h2>
+        {% for book, author, img in data|slice:":5" %}
+            <div class="card">
+                <img src="{{ img }}" alt="">
+                <h5 title="{{ book }}">
+                    {% if book|length > 30 %}
+                        {{ book|truncatechars:30 }}
+                    {% else %}
+                        {{ book }}
+                    {% endif %}
+                    
+                </h5>     
+                <p>{{ author }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+
+    <div class="row">
+        <h2>All Books:</h2>
+        {% for book, author, img in BookName.BookName|slice:":8"%}
+        <div class="card">
+            <img src="{{ img }}" alt="">
+            <h5 title="{{ book }}">
+                {% if book|length > 30 %}
+                    {{ book|truncatechars:30 }}
+                {% else %}
+                    {{ book }}
+                {% endif %}
+                
+            </h5>     
+            <p>{{ author }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}    
+        
+        
+        
+    </body>
+    
+    
+
+{% endblock %}
+
+
+

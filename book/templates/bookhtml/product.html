@@ -1,0 +1,25 @@
+<!---  {% load static %} --->
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'bookcss/product.css' %}" />
+</head>
+<body>
+<div class="row">
+    {% for book in books %}
+    <div class="card">
+        <!-- <img src="jeans3.jpg" alt="Denim Jeans"> -->
+        <h1>{{ book.title}}</h1>
+        <p class="price">By {{ book.author}} on {{ book.book_date}}</p>
+        <p>{{ book.price}}</p>
+        <p><button>Add to Cart</button></p>
+    </div>
+    {% endfor %}
+</div>
+    
+
+    
+</body>
+</html> 
+
+
